@@ -1,0 +1,52 @@
+<html>
+<head>
+<script>
+var users=[
+  {
+    "name": "Saurav",
+    "age": 25,
+    "city": "Dhanbad"
+  },
+  {
+    "name": "Subho",
+    "age": 25,
+    "city": "Dhanbad"
+  },
+  {
+    "name": "Akash",
+    "age": 25,
+    "city": "Sijua"
+  },
+  {
+    "name": "Indranil",
+    "age": 25,
+    "city": "Dhnabad"
+  },
+  {
+    "name": "Diptesh",
+    "age": 25,
+    "city": "Bangalore"
+  }
+];
+// document.write("<ul>");
+// for(x in items){
+//     debugger;
+//     document.write("<li>"+items[x]+"</li>");
+// }
+// document.write("</ul>");
+document.write("<table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Name</th><th style='border: 1px solid black;'>Age</th><th style='border: 1px solid black;'>City</th></tr>");
+
+users.forEach(function(user){
+    document.write("<tr>");
+    document.write("<td style='border: 1px solid black;'>"+user.name + "</td>"); 
+    document.write("<td style='border: 1px solid black;'>"+user.age + "</td>");
+    document.write("<td style='border: 1px solid black;'>"+user.city + "</td>");
+    document.write("</tr>");
+});
+document.write("</table>");
+</script>
+</head>
+<body>
+
+</body>
+</html>
