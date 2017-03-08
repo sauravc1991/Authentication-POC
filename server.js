@@ -35,6 +35,10 @@ var Users=mongoose.model('Users',{
     Password: String
 });
 
+router.get('/dashboard',function(req,res){
+    res.sendfile('index.html');
+});
+
 //API call to create a user
 router.post('/createUser',function(req,res){
     Users.create({

@@ -1,52 +1,45 @@
 <html>
-<head>
-<script>
-var users=[
-  {
-    "name": "Saurav",
-    "age": 25,
-    "city": "Dhanbad"
-  },
-  {
-    "name": "Subho",
-    "age": 25,
-    "city": "Dhanbad"
-  },
-  {
-    "name": "Akash",
-    "age": 25,
-    "city": "Sijua"
-  },
-  {
-    "name": "Indranil",
-    "age": 25,
-    "city": "Dhnabad"
-  },
-  {
-    "name": "Diptesh",
-    "age": 25,
-    "city": "Bangalore"
-  }
-];
-// document.write("<ul>");
-// for(x in items){
-//     debugger;
-//     document.write("<li>"+items[x]+"</li>");
-// }
-// document.write("</ul>");
-document.write("<table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Name</th><th style='border: 1px solid black;'>Age</th><th style='border: 1px solid black;'>City</th></tr>");
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js" type="text/javascript"></script>
+    <script>
+    var app=angular.module('app',[]);
+    app.controller('myCtrl', function($scope,$http){
+      
+      $scope.getUsers=function(){
+        $http.get('http://localhost:3000/getUsers').then(function(response){
+          $scope.users=response.data;
+        });
+      };
 
-users.forEach(function(user){
-    document.write("<tr>");
-    document.write("<td style='border: 1px solid black;'>"+user.name + "</td>"); 
-    document.write("<td style='border: 1px solid black;'>"+user.age + "</td>");
-    document.write("<td style='border: 1px solid black;'>"+user.city + "</td>");
-    document.write("</tr>");
-});
-document.write("</table>");
-</script>
-</head>
-<body>
+      $scope.getUsers();
 
-</body>
+      $scope.deleteUser=function(id){
+        debugger
+        $http.delete('http://localhost:3000/deleteUser/'+id).then(function(response){
+          $scope.getUsers();
+        });
+      };
+     
+    });
+    </script>
+  </head>
+  <body ng-app="app" ng-controller="myCtrl">
+    <div class="col-md-6 col-md-offset-3" style="margin-top: 200px;">
+    <table class="table table-responsive table-bordered">
+      <tr>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Actions</th>
+        </tr>
+        <tr ng-repeat="user in users">
+          <td>{{user.Name}}</td>
+          <td>{{user.Username}}</td>
+          <td>{{user.Password}}</td>
+          <td><div class="btn btn-danger" ng-click="deleteUser(user._id)">Delete</div></td>
+        </tr>
+      </table>
+    </div>
+  </body>
 </html>
