@@ -1,7 +1,8 @@
-//Initiialise Morgan, Express and Body Parser
+//Initiialise Morgan, Express and Body Parser , mongodb
 var morgan=require('morgan');
 var express=require('express');
 var bodyParser=require('body-parser');
+var mongoose=require('mongoose');
 
 //Instantiate Express
 var app = express();
@@ -9,61 +10,110 @@ var app = express();
 //Instantiate Express Rouoter
 var router=express.Router();
 
-//register Body Parser Middleware
+//Register Body Parser Middleware
 app.use(bodyParser('{urlEncoded: true}'));
 app.use(bodyParser.json());
 
-//register morgan middleware
+//Register morgan middleware
 app.use(morgan('dev'));
 
-//register express routing middleware
+//Register express routing middleware
 app.use('/',router);
 
-router.get('/', function(req,res){
-    res.sendfile('stacy.jpg');
-});
-
-//register routes
-router.get('/verify',function(req,res){
-    res.send('API is working');
-});
-
-//Unauthenticated routes
-router.post('/login',function(req,res){
-    var username=req.body.username;
-    var pass=req.body.password;
-    var token='supersecret';
-    if(username=='Saurav' && pass=='1234'){
-        res.json({"message": "success", "token": token});
-    }
-    else{
-        res.json({"message": "authentication failed"});
+//Connencting database
+mongoose.connect('mongodb://localhost:27017/ProjectDB',function(err,db){
+    if(err){
+        console.log('error in connecting mongodb!! '+err);
+    }else{
+        console.log('connection to mongodb successfull');
     }
 });
 
-//Authentication Middleware
-router.use(function(req, res,next){
-    if(req.headers['x-access-token']=='supersecret'){
-        next();
-    }
-    else{
-        return res.json({"message": "Invalid token"});
-    }
+var Users=mongoose.model('Users',{
+    Name: String,
+    Username: String,
+    Password: String
 });
 
-router.get('/data', function(req,res){
-    var data =[{"name":"Saurav",
-                "age":"25"},
-                {"name":"Subho",
-                "age":"22"
-            },
-            {"name":"Akash",
-                "age":"22"}];
-
-    res.json(data);
+//API call to create a user
+router.post('/createUser',function(req,res){
+    Users.create({
+        Name: req.body.Name,
+        Username: req.body.Username,
+        Password: req.body.Password
+    },function(err,success){
+        if(!err){
+            res.send('User Created Successfully!');
+        }
+        else{
+            res.send('Something went wrong :( '+err);
+        }
+    });
 });
 
+//API call to get all users
+router.get('/getUsers',function(req,res){
+    Users.find(function(err,response){
+        if(!err){
+            res.json(response);
+        }
+        else{
+            res.send('Unable to query the DB');
+        }
+    });
+});
 
+//API call to get one user by ID
+router.get('/getUserById/:id',function(req,res){
+    Users.findOne({
+        _id: req.params.id
+    },function(err,response){
+        if(!err){
+            res.json(response);
+        }
+        else{
+            res.send('unable to read from database');
+        }
+    });
+});
+
+//API call to update one user by id
+router.put('/updateUser/:id',function(req,res){
+    Users.update({
+        _id: req.params.id,
+        Name:req.body.Name,
+        Username: req.body.Username,
+        Password: req.body.Password
+    },function(err,response){
+        if(!err){
+            res.send('user updated Successfully');
+        }
+        else{
+            res.send('user could not be updated');
+        }
+    });
+});
+
+//API to deete a user
+router.delete('/deleteUser/:id',function(req,res){
+    Users.remove({
+        _id: req.params.id
+    },function(err,response){
+        if(!err){
+            res.send('User deleted Successfully');
+        }
+        else{
+            res.send('Unable to delete user');
+        }
+    });
+});
+
+//API for user login
+router.post('/authenticateUser',function(req,res){
+   
+});
+
+//Start HTTp server at given port
 app.listen(3000,function(err){
     if(!err){
         console.log('I am listening!');
