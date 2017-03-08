@@ -1,0 +1,90 @@
+{
+	"variables": [],
+	"info": {
+		"name": "SmartLock Project",
+		"_postman_id": "9dbe357e-3a81-f93d-c5dc-12ed139c3abb",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"url": "localhost:3000/createUser",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "//X-Access-Token",
+						"value": "supersecret",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\":\"Subhojit Bhattacharjee\",\n\t\"Username\":\"Subhojit\",\n\t\"Password\":\"1234\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"url": "localhost:3000/getUsers",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"url": "localhost:3000/deleteUser/58c0690dc5790908b804ad3e",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By ID",
+			"request": {
+				"url": "localhost:3000/getuserById/58c069a885f8962600329850",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"url": "localhost:3000/updateUser/58c0693885f896260032984f",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\":\"Akash Kumar Gupta\",\n\t\"Username\":\"Akash\",\n\t\"Password\":\"1234\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
