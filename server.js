@@ -35,6 +35,49 @@ var Users=mongoose.model('Users',{
     Password: String
 });
 
+var AccessLogs=mongoose.model('AccessLogs',{
+    TagUID:String,
+    AccessTime:String
+});
+
+router.post('/registerCardSwipe',function(req,res){
+    AccessLogs.create({
+     TagUID:req.body.TagUID,
+     AccessTime:new Date() 
+    },function(err,response){
+        if(!err){
+            res.send('Data Logged Successful');
+        }
+        else{
+            res.send('unsuccessful');
+        }
+    });
+});
+
+router.get('/getAccessLogs',function(req,res){
+    AccessLogs.find(function(err,response){
+        if(!err){
+            res.json(response);
+        }
+        else{
+            res.send('Unable to fetch data from database');
+        }        
+    });
+});
+
+router.delete('/deleteAccessLog/:id',function(req,res){
+    AccessLogs.remove({
+        _id: req.params.id
+    },function(err,response){
+        if(!err){
+            res.send('Successfully Deleted');
+        }
+        else{
+            res.send('Could Not Delete');
+        }
+    });
+});
+
 router.get('/dashboard',function(req,res){
     res.sendfile('index.html');
 });
