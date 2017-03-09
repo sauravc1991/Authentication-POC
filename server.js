@@ -40,9 +40,9 @@ var AccessLogs=mongoose.model('AccessLogs',{
     AccessTime:String
 });
 
-router.post('/registerCardSwipe',function(req,res){
+router.post('/cardDetect',function(req,res){    
     AccessLogs.create({
-     TagUID:req.body.TagUID,
+     TagUID:req.body.uid,
      AccessTime:new Date() 
     },function(err,response){
         if(!err){
@@ -161,7 +161,7 @@ router.post('/authenticateUser',function(req,res){
 });
 
 //Start HTTp server at given port
-app.listen(3000,function(err){
+app.listen(8000,function(err){
     if(!err){
         console.log('I am listening!');
     }else{
