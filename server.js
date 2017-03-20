@@ -79,7 +79,7 @@ router.delete('/deleteAccessLog/:id',function(req,res){
 });
 
 router.get('/dashboard',function(req,res){
-    res.sendfile('index.html');
+    res.sendFile('index.html');
 });
 
 //API call to create a user
