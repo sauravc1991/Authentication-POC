@@ -3,6 +3,7 @@ var morgan=require('morgan');
 var express=require('express');
 var bodyParser=require('body-parser');
 var mongoose=require('mongoose');
+var exec = require('child_process').exec;
 
 //Instantiate Express
 var app = express();
@@ -40,7 +41,8 @@ var AccessLogs=mongoose.model('AccessLogs',{
     AccessTime:String
 });
 
-router.post('/cardDetect',function(req,res){    
+router.post('/cardDetect',function(req,res){   
+     
     AccessLogs.create({
      TagUID:req.body.uid,
      AccessTime:new Date() 
@@ -52,6 +54,15 @@ router.post('/cardDetect',function(req,res){
             res.send('unsuccessful');
         }
     });
+
+    exec("gpio write 26 0");
+    //console.log('Gate opened')
+    setTimeout(function(){
+    //console.log('Gate closed');
+    exec("gpio write 26 1");
+    },10000);
+
+
 });
 
 router.get('/getAccessLogs',function(req,res){
